@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, send_from_directory, abort,  request, redirect, url_for, session
+from flask import Flask, render_template, send_from_directory, abort, jsonify
 from grader import (
     list_directory,
     resolve_pdf,
@@ -51,12 +51,15 @@ def view_pdf(filepath):
 def grade(filepath):
     return render_template(
         "grading.html",
-        filepath=filepath,
-        rubric_data=json.dumps(RUBRIC),
-        rubric_keys=json.dumps(RUBRIC_KEYS)
+        filepath=filepath
     )
 
-    
+@app.route("/api/rubric")
+def rubric_api():
+    return jsonify({
+        "rubric": RUBRIC,
+        "keys": RUBRIC_KEYS
+    })   
     
 if __name__ == "__main__":
     app.run(debug=True)
