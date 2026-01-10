@@ -1,0 +1,131 @@
+{
+  "Proposal": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 4,
+    "comments": [
+      "Proposal is clear, structured, and well-defined",
+      "Proposal is clear but lacks some detail",
+      "Proposal is partially defined",
+      "Proposal lacks clarity or direction",
+      "Proposal is missing or irrelevant"
+    ]
+  },
+
+  "Introduction": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 5,
+    "comments": [
+      "Introduction clearly sets context and objectives",
+      "Introduction is clear but could be improved",
+      "Introduction is basic",
+      "Introduction lacks clarity",
+      "Introduction is missing or irrelevant"
+    ]
+  },
+
+  "Background": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 6,
+    "comments": [
+      "Background is well-researched and relevant",
+      "Background is adequate",
+      "Background is basic",
+      "Background lacks depth",
+      "Background is missing or irrelevant"
+    ]
+  },
+
+  "Development": {
+    "marks": 20,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 7,
+    "comments": [
+      "Development is thorough and well-structured",
+      "Development is good but could be refined",
+      "Development is satisfactory",
+      "Development lacks clarity or detail",
+      "Development is weak or incomplete"
+    ]
+  },
+
+  "Results and Findings": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 8,
+    "comments": [
+      "Results and findings are clear and well-analysed",
+      "Results are clear with minor gaps",
+      "Results are presented adequately",
+      "Results lack analysis or clarity",
+      "Results are missing or incorrect"
+    ]
+  },
+
+  "Further Work": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 9,
+    "comments": [
+      "Further work is realistic and well-justified",
+      "Further work is appropriate",
+      "Further work is basic",
+      "Further work lacks justification",
+      "Further work is missing or irrelevant"
+    ]
+  },
+
+  "Conclusion": {
+    "marks": 5,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 10,
+    "comments": [
+      "Conclusion effectively summarizes key points",
+      "Conclusion is clear",
+      "Conclusion is basic",
+      "Conclusion lacks coherence",
+      "Conclusion is missing"
+    ]
+  },
+
+  "Formatting and References": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 11,
+    "comments": [
+      "Formatting and references are excellent",
+      "Formatting and references are good",
+      "Formatting and references are satisfactory",
+      "Formatting and references need improvement",
+      "Poor formatting or incorrect references"
+    ]
+  },
+
+  "Presentation": {
+    "marks": 10,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 12,
+    "comments": [
+      "Presentation is clear, confident, and professional",
+      "Presentation is clear",
+      "Presentation is satisfactory",
+      "Presentation lacks clarity",
+      "Presentation is weak"
+    ]
+  },
+
+  "Viva": {
+    "marks": 5,
+    "excelRowIndex": 10,
+    "excelColumnIndex": 13,
+    "comments": [
+      "Excellent understanding demonstrated in viva",
+      "Good understanding demonstrated",
+      "Satisfactory understanding",
+      "Limited understanding shown",
+      "Poor or no understanding demonstrated"
+    ]
+  }
+}
