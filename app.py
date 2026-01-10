@@ -1,19 +1,18 @@
 # app.py
-from flask import Flask, render_template, send_from_directory, abort, jsonify
+from flask import Flask, render_template, send_from_directory, abort, jsonify, request
+
 from grader import (
     list_directory,
     resolve_pdf,
     InvalidPath,
     NotFound,
+    save_student_grade,
+    process_rubric
 )
-import json
+
 
 app = Flask(__name__)
 
-with open('rubric.json', 'r') as f:
-    RUBRIC = json.load(f)
-    
-RUBRIC_KEYS = list(RUBRIC.keys())
 
 @app.route("/", defaults={"subpath": "", "selected": None})
 @app.route("/browse/<path:subpath>", defaults={"selected": None})
@@ -56,10 +55,21 @@ def grade(filepath):
 
 @app.route("/api/rubric")
 def rubric_api():
-    return jsonify({
-        "rubric": RUBRIC,
-        "keys": RUBRIC_KEYS
-    })   
-    
+    return process_rubric()
+
+@app.route("/grades", methods=["POST"])
+def submit_grades():
+    data = request.get_json()
+    file_name = data.get("file_name")
+    rubric = data.get("rubric")
+
+
+    if not file_name or not rubric:
+        return jsonify({"error": "Missing file name or rubric"}), 400
+
+    student_data = save_student_grade(file_name, rubric)
+    return jsonify({"message": "Grades saved", "student_data": student_data})
+
+
 if __name__ == "__main__":
     app.run(debug=True)

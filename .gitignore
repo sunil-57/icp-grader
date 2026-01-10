@@ -3,6 +3,7 @@ node_modules/
 venv/
 env/
 pdfs/
+grades/
 __pycache__/
 *.pyc
 

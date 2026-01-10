@@ -1,6 +1,7 @@
 let RUBRIC = {};
 let RUBRIC_KEYS = [];
 let currentIndex = 0;
+let totalObtained = 0;
 
 async function loadRubric() {
     const response = await fetch("/api/rubric");
@@ -13,9 +14,67 @@ async function loadRubric() {
     updateDisplay();
 }
 
+async function submitGrades() {
+    const rubricGrades = {};
+    const iframe = document.getElementById("pdf-viewer");
+    const FILE_PATH = iframe ? iframe.getAttribute("src").split("/view/")[1] : "";
+
+    RUBRIC_KEYS.forEach((key) => {
+        const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
+        const marksInput = document.getElementById("marks-input");
+        const commentInput = document.getElementById("comment-input");
+
+        rubricGrades[key] = {
+            marks_awarded: marksInput ? Math.min(parseInt(marksInput.value) || 0, RUBRIC[key].marks) : RUBRIC[key].marks,
+            comment: commentInput ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "") : ""
+        };
+    });
+
+
+    const payload = {
+        file_name: decodeURIComponent(FILE_PATH),
+        rubric: rubricGrades
+    };
+
+    try {
+        const response = await fetch("/grades", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        console.log("Submitting payload:", payload);
+        if (response.ok) {
+            const result = await response.json();
+            alert("Grades saved successfully!");
+            console.log(result);
+            // window.location.href = "/";
+        } else {
+            const text = await response.text();
+            console.error("Error response:", text);
+            // alert("Error saving grades. See console.");
+        }
+    } catch (err) {
+        console.error("Network error:", err);
+        // alert("Network error while saving grades. See console.");
+    }
+}
+
+
 function updateDisplay() {
     const currentKey = RUBRIC_KEYS[currentIndex];
     const currentRubric = RUBRIC[currentKey];
+    const marksInput = document.getElementById("marks-input");
+    const marksError = document.getElementById("marks-error");
+    marksInput.max = RUBRIC[currentKey].marks;
+
+    marksInput.addEventListener("input", () => {
+        if (parseInt(marksInput.value) > RUBRIC[currentKey].marks) {
+            marksError.classList.remove("hidden");
+        } else {
+            marksError.classList.add("hidden");
+        }
+    });
+
 
     if (!currentRubric) return;
 
@@ -46,20 +105,22 @@ function updateDisplay() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
 
+document.addEventListener("DOMContentLoaded", () => {
+    const marksInput = document.getElementById("marks-input");
+    const obtainedMarksDisplay = document.getElementById("obtained-marks");
     document.getElementById('prev-btn').addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
             updateDisplay();
         }
     });
-
     document.getElementById('next-btn').addEventListener('click', () => {
         if (currentIndex < RUBRIC_KEYS.length - 1) {
             currentIndex++;
             updateDisplay();
         }
+        obtainedMarksDisplay.value = marksInput.value;
     });
 
     document.getElementById('done-btn').addEventListener('click', () => {
@@ -68,3 +129,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadRubric();
 });
+
