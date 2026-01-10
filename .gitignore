@@ -2,7 +2,7 @@
 node_modules/
 venv/
 env/
-pdfs/
+documents/
 grades/
 __pycache__/
 *.pyc

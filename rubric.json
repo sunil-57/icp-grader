@@ -1,8 +1,7 @@
 {
   "Proposal": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 4,
+    "excelCell": "C5",
     "comments": [
       "Proposal is clear, structured, and well-defined",
       "Proposal is clear but lacks some detail",
@@ -14,8 +13,7 @@
 
   "Introduction": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 5,
+    "excelCell": "C6",
     "comments": [
       "Introduction clearly sets context and objectives",
       "Introduction is clear but could be improved",
@@ -27,8 +25,7 @@
 
   "Background": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 6,
+    "excelCell": "C7",
     "comments": [
       "Background is well-researched and relevant",
       "Background is adequate",
@@ -40,8 +37,7 @@
 
   "Development": {
     "marks": 20,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 7,
+    "excelCell": "C8",
     "comments": [
       "Development is thorough and well-structured",
       "Development is good but could be refined",
@@ -53,8 +49,7 @@
 
   "Results and Findings": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 8,
+    "excelCell": "C9",
     "comments": [
       "Results and findings are clear and well-analysed",
       "Results are clear with minor gaps",
@@ -66,8 +61,7 @@
 
   "Further Work": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 9,
+    "excelCell": "C10",
     "comments": [
       "Further work is realistic and well-justified",
       "Further work is appropriate",
@@ -79,8 +73,7 @@
 
   "Conclusion": {
     "marks": 5,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 10,
+    "excelCell": "C11",
     "comments": [
       "Conclusion effectively summarizes key points",
       "Conclusion is clear",
@@ -92,8 +85,7 @@
 
   "Formatting and References": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 11,
+    "excelCell": "C12",
     "comments": [
       "Formatting and references are excellent",
       "Formatting and references are good",
@@ -105,8 +97,7 @@
 
   "Presentation": {
     "marks": 10,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 12,
+    "excelCell": "C13",
     "comments": [
       "Presentation is clear, confident, and professional",
       "Presentation is clear",
@@ -118,8 +109,7 @@
 
   "Viva": {
     "marks": 5,
-    "excelRowIndex": 10,
-    "excelColumnIndex": 13,
+    "excelCell": "C14",
     "comments": [
       "Excellent understanding demonstrated in viva",
       "Good understanding demonstrated",
