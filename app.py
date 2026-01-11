@@ -68,7 +68,7 @@ def submit_grades():
         return jsonify({"error": "Missing file name or rubric"}), 400
 
     student_data = save_student_grade(file_name, rubric)
-    return jsonify({"message": "Grades saved", "student_data": student_data})
+    return jsonify({"message": "Grades saved", "student_data": student_data}), 200
 
 
 if __name__ == "__main__":

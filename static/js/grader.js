@@ -46,16 +46,14 @@ async function submitGrades() {
         if (response.ok) {
             const result = await response.json();
             alert("Grades saved successfully!");
-            console.log(result);
-            // window.location.href = "/";
         } else {
             const text = await response.text();
             console.error("Error response:", text);
-            // alert("Error saving grades. See console.");
+            alert("Error saving grades. See console.");
         }
     } catch (err) {
         console.error("Network error:", err);
-        // alert("Network error while saving grades. See console.");
+        alert("Network error while saving grades. See console.");
     }
 }
 
