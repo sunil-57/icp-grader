@@ -40,8 +40,18 @@
             <!-- RIGHT: Grading Panel -->
             <div class="w-1/3 bg-white border-l border-gray-200 overflow-y-auto">
                 <div class="p-6">
+                    <div class="flex items-center flex-1 text-gray-700 hover:text-gray-900 group">
+                        <svg class="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-600" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        <span class="truncate text-md font-bold text-gray-800 p-2 ">{{filepath}}</span>
+                    </div>
+
+
                     <!-- Criterion Title -->
-                    <div class="flex items-center gap-16 m-2 p-2">
+                    <div class="flex items-center gap-8 m-2 p-2">
                         <h2 id="criterion-title" class="text-xl font-bold text-gray-800 p-2"></h2>
                         <p class="text-md text-gray-700 p-2">
                             Full Marks:
