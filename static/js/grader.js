@@ -2,6 +2,7 @@ let RUBRIC = {};
 let RUBRIC_KEYS = [];
 let currentIndex = 0;
 let totalObtained = 0;
+const rubricGrades = {};
 
 async function loadRubric() {
     const response = await fetch("/api/rubric");
@@ -15,21 +16,23 @@ async function loadRubric() {
 }
 
 async function submitGrades() {
-    const rubricGrades = {};
+    // const rubricGrades = {};
     const iframe = document.getElementById("pdf-viewer");
     const FILE_PATH = iframe ? iframe.getAttribute("src").split("/view/")[1] : "";
 
-    RUBRIC_KEYS.forEach((key) => {
-        const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
-        const marksInput = document.getElementById("marks-input");
-        const commentInput = document.getElementById("comment-input");
-
-        rubricGrades[key] = {
-            marks_awarded: marksInput? Math.min(parseInt(marksInput.value) || 0, RUBRIC[key].marks): RUBRIC[key].marks,
-            comment: commentInput? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : ""): ""
-        };
-    });
-
+    // RUBRIC_KEYS.forEach((key) => {
+    //     const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
+    //     const marksInput = document.getElementById("marks-input");
+    //     const commentInput = document.getElementById("comment-input");
+    //     console.log("Marks Input:", marksInput.value);
+    //     console.log("Comment Input:", commentInput.value);
+    //     console.log("Selected Input:", selectedInput);
+    //     rubricGrades[key] = {
+    //         marks_awarded: marks_awarded,
+    //         comment: comment
+    //     };
+    // });
+    console.log("Final rubric grades to submit:", rubricGrades);
     const payload = {
         file_name: decodeURIComponent(FILE_PATH),
         rubric: rubricGrades
@@ -95,6 +98,23 @@ function updateDisplay() {
     }
 }
 
+function saveCurrentRubric(currentIndex) {
+    const currentKey = RUBRIC_KEYS[currentIndex];
+    const selectedInput = document.querySelector(
+        `input[name="grade_${currentKey}"]:checked`
+    );
+
+    const marksInput = document.getElementById("marks-input");
+    const commentInput = document.getElementById("comment-input");
+
+    rubricGrades[currentKey] = {
+        marks_awarded: marksInput? Math.min(parseInt(marksInput.value) || 0, RUBRIC[currentKey].marks): 0,
+        comment: commentInput.value? commentInput.value: selectedInput? RUBRIC[currentKey].comments[selectedInput.value]: ""
+    };
+    
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const marksInput = document.getElementById("marks-input");
     const marksError = document.getElementById("marks-error");
@@ -123,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('next-btn').addEventListener('click', () => {
         if (currentIndex < RUBRIC_KEYS.length - 1) {
+            saveCurrentRubric(currentIndex);
             currentIndex++;
             updateDisplay();
         }
@@ -131,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('done-btn').addEventListener('click', async () => {
         await submitGrades();
-        window.location.href = '/';
+        // window.location.href = '/';
     });
 
     loadRubric();
