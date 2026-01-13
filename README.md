@@ -7,8 +7,8 @@ A web application for grading student project submissions using a customizable r
 This application provides:
 - **PDF Browser**: Navigate student submissions organized by folders
 - **Interactive Grader**: Grade submissions against a customizable rubric
-- **Multi-format Output**: Grades saved to JSON and Excel spreadsheets
-- **Rubric Management**: Easy-to-configure JSON-based grading criteria
+- **Multi-format Output**: Grades saved to JSON and Excel spreadsheets `[saved in json, such that it might come handy as the student data is kept in one place i.e. analytics, or export in another excel sheet or might other functions that I might be ignoring or which has not crossed my mind. A better solution could just create a google sheet instead of a local excel sheet because we ultimately have to share the excel files to the google drive after grading the coursework]`
+- **Rubric Management**: Easy-to-configure JSON-based grading criteria `[need to work on this, currently have to change the json without using the system]`
 
 ## Prerequisites
 
