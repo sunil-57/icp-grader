@@ -25,12 +25,8 @@ async function submitGrades() {
         const commentInput = document.getElementById("comment-input");
 
         rubricGrades[key] = {
-            marks_awarded: marksInput
-                ? Math.min(parseInt(marksInput.value) || 0, RUBRIC[key].marks)
-                : RUBRIC[key].marks,
-            comment: commentInput
-                ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "")
-                : ""
+            marks_awarded: marksInput? Math.min(parseInt(marksInput.value) || 0, RUBRIC[key].marks): RUBRIC[key].marks,
+            comment: commentInput? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : ""): ""
         };
     });
 
@@ -80,7 +76,7 @@ function updateDisplay() {
 
     currentRubric.comments.forEach((comment, index) => {
         const label = document.createElement('label');
-        label.className = 'flex items-center gap-2 p-2 m-2 border-2 rounded-lg cursor-pointer';
+        label.className = 'flex items-center gap-2 p-2 border-2 rounded-lg cursor-pointer';
         label.innerHTML = `
             <input type="radio" name="grade_${currentKey}" value="${index}">
             ${comment}
