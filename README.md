@@ -1,6 +1,6 @@
 # ICP Grader
 
-A web application for grading student project submissions using a customizable rubric. Graders evaluate them against defined criteria, with grades automatically saved to both JSON and Excel formats.
+A web application for grading student project submissions using a customizable rubric. Graders evaluate them against defined criteria, with grades automatically saved to both JSON and Excel formats provided by the college.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This application provides:
 - Flask
 - openpyxl (for Excel file handling)
 
-## Setup Instructions
+## Setup Instructions and Configuration
 
 ### 1. Create Virtual Environment
 
@@ -53,7 +53,7 @@ Ensure the following directories exist:
 ```
 icp-grader/
 ├── documents/          # Student PDF submissions
-├── grades/            # Output grades directory (will be created if doesnot exist)
+├── grades/            # Output grades directory
 ├── static/
 │   └── js/
 ├── templates/
@@ -70,8 +70,15 @@ Create `documents/grade_template.xlsx` with:
 - Cell B2: Student name
 - Cell B3: Student ID
 - Cells C5-C14: Grade cells (matches rubric configuration)
-- Cell A20 (Result sheet): Overall comment
+- Cell A20 (Result sheet): Overall comment 
 
+>  Above configuration is shown as per the template for the module that I teach. 
+>
+> Different modules have different structure and criterias. 
+> 
+> It needs to be configured in the `rubric.json`.
+
+**NOTE:**
 The Excel cells must align with `excelCell` values in `rubric.json`.
 
 ### 6. Run Application
@@ -112,7 +119,7 @@ icp-grader/
 
 Place student PDF files in `documents/` folder with the naming convention:
 ```
-documents/[StudentID StudentName]/[StudentID]_[LastName]_[ProjectName].pdf
+documents/[London Met Id_StudentName]/[London Met Id_[LastName]_[ProjectName].pd
 ```
 
 Example:
@@ -124,7 +131,7 @@ documents/24040811 Avinav Shrestha/24040811_Avinav Shrestha_Project.pdf
 
 Edit `rubric.json` to define grading criteria. Each rubric item should have:
 - `marks`: Full marks for this criterion
-- `excelCell`: Cell reference in Excel template (e.g., "C5")
+- `excelCell`: Cell reference in Excel template where the awarded marks should be written(e.g., "C5")
 - `comments`: Array of comment options for feedback
 
 Example:
@@ -152,58 +159,9 @@ Example:
    - Choose or enter comment
 5. Submit grades - automatically saves to:
    - `grades/all_grades.json` (aggregated)
-   - `documents/[StudentID] [Name].xlsx` (individual)
+   - `documents/London Met ID Name/London Met ID_Name.xlsx` (individual)
 
-## API Endpoints
-
-### GET `/`
-Browse all student submissions
-
-### GET `/browse/<path:subpath>`
-Browse specific folder path
-
-### GET `/grade/<path:filepath>`
-Open grading interface for a PDF
-
-### GET `/view/<path:filepath>`
-View PDF file
-
-### GET `/api/rubric`
-Get rubric definition (JSON)
-
-### POST `/grades`
-Submit grades for a student
-- **Request body:**
-  ```json
-  {
-    "file_name": "24040811_Shrestha_Project.pdf",
-    "rubric": {
-      "Proposal": {"marks_awarded": 10, "comment": "..."},
-      "..."
-    }
-  }
-  ```
-
-## Output Files
-
-### Grades JSON (`grades/all_grades.json`)
-
-```json
-[
-  {
-    "student_id": "24040811",
-    "student_name": "Avinav Shrestha",
-    "file_path": "24040811_Shrestha_Project.pdf",
-    "total_marks": 85,
-    "rubric": {
-      "Proposal": {"marks_awarded": 10, "comment": "..."},
-      "..."
-    },
-    "overall_comment": "..."
-  }
-]
-```
-
+**Note:** It will give `404` not found error, if the documents folder is not configured, so it should be handled before. Well, yes, it needs to be handled but initially it is focused on grading the paper only.
 ### Individual Excel Files
 
 Generated in student submission folder with format: `[StudentID] [Name].xlsx`
@@ -230,4 +188,4 @@ Generated in student submission folder with format: `[StudentID] [Name].xlsx`
 - Flask runs in debug mode by default
 - Changes to `rubric.json` are reflected immediately
 - Existing grades can be updated by re-submitting
-- Student data is identified by student ID in filename
+- Student data is identified by London Met ID in filename
