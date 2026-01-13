@@ -73,6 +73,8 @@ function updateDisplay() {
     const currentRubric = RUBRIC[currentKey];
     const marksInput = document.getElementById("marks-input");
 
+    marksInput.value = "0";
+
     if (!currentRubric) return;
 
     if (marksInput && currentKey && RUBRIC[currentKey]) {
@@ -176,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('done-btn').addEventListener('click', async () => {
         await submitGrades();
+        window.location.href = '/';
     });
 
     loadRubric();
