@@ -59,17 +59,29 @@ def rubric_api():
 
 @app.route("/grades", methods=["POST"])
 def submit_grades():
-    data = request.get_json()
-    file_name = data.get("file_name")
-    rubric = data.get("rubric")
+    try:
+        data = request.get_json()
+        file_name = data.get("file_name")
+        rubric = data.get("rubric")
 
+        if not file_name or not rubric:
+            return jsonify({"error": "Missing file name or rubric"}), 400
 
-    if not file_name or not rubric:
-        return jsonify({"error": "Missing file name or rubric"}), 400
+        student_data = save_student_grade(file_name, rubric)
+        print("Saved grades for:", student_data["student_name"])
+        return jsonify({
+            "message": "Grades saved",
+            "student_data": student_data
+        }), 200
 
-    student_data = save_student_grade(file_name, rubric)
-    return jsonify({"message": "Grades saved", "student_data": student_data}), 200
-
+    except Exception as e:
+        print("ERROR IN /grades:", e)   # <-- THIS WILL SHOW THE REAL BUG
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "error": str(e),
+            "type": e.__class__.__name__
+        }), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

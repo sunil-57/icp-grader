@@ -163,9 +163,8 @@ def write_grades_to_excel(student_data):
     sheet["B3"].value = student_data["student_id"]
     for key, grade in student_grades.items():
         if key not in rubric:
+            #TODO need to handle this
             continue
-
-
         print(f"Writing {grade['marks_awarded']} to cell {rubric[key]['excelCell']} for key {key}")
         sheet[rubric[key]["excelCell"]].value = grade["marks_awarded"]
     
