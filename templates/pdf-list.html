@@ -25,7 +25,7 @@
         <!-- Main Container -->
         <div class="flex flex-1 overflow-hidden">
             <!-- LEFT: PDF VIEWER -->
-            <div class="w-2/3 p-4 bg-gray-100">
+            <div class="w-3/4 p-2 bg-gray-100">
                 {% if selected_pdf %}
                 <div class="h-full bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
                     <iframe src="{{ url_for('view_pdf', filepath=selected_pdf) }}" class="w-full flex-1 border-0">

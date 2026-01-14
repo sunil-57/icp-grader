@@ -115,10 +115,8 @@ def save_student_grade(file_path: str, rubric_grades: dict, output_file="grades/
     with open(output_file, "w") as f:
         json.dump(all_students, f, indent=4)
     
-  
-    write_grades_to_excel(
-       student_data
-    )
+
+    write_grades_to_excel(student_data)
 
     return student_data
 
@@ -160,7 +158,7 @@ def write_grades_to_excel(student_data):
         
     sheet = wb[sheet_name]
     sheet["B2"].value = student_data["student_name"]
-    sheet["B3"].value = student_data["student_id"]
+    sheet["B3"].value = int(student_data["student_id"])
     for key, grade in student_grades.items():
         if key not in rubric:
             #TODO need to handle this

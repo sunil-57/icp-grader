@@ -2,6 +2,7 @@ let RUBRIC = {};
 let RUBRIC_KEYS = [];
 let currentIndex = 0;
 let totalObtained = 0;
+const rubricGrades = {};
 
 async function loadRubric() {
     const response = await fetch("/api/rubric");
@@ -15,24 +16,10 @@ async function loadRubric() {
 }
 
 async function submitGrades() {
-    const rubricGrades = {};
     const iframe = document.getElementById("pdf-viewer");
     const FILE_PATH = iframe ? iframe.getAttribute("src").split("/view/")[1] : "";
 
-    RUBRIC_KEYS.forEach((key) => {
-        const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
-        const marksInput = document.getElementById("marks-input");
-        const commentInput = document.getElementById("comment-input");
-
-        rubricGrades[key] = {
-            marks_awarded: marksInput
-                ? Math.min(parseInt(marksInput.value) || 0, RUBRIC[key].marks)
-                : RUBRIC[key].marks,
-            comment: commentInput
-                ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "")
-                : ""
-        };
-    });
+    console.log("Final rubric grades to submit:", rubricGrades);
 
     const payload = {
         file_name: decodeURIComponent(FILE_PATH),
@@ -40,8 +27,6 @@ async function submitGrades() {
     };
 
     try {
-        console.log("Submitting payload:", payload);
-
         const response = await fetch("/grades", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -61,10 +46,34 @@ async function submitGrades() {
     }
 }
 
+
+function handleCheckboxCommentLock(currentKey) {
+    const commentInput = document.getElementById("comment-input");
+    const checkboxes = document.querySelectorAll(`input[name="grade_${currentKey}"]`);
+
+    checkboxes.forEach(box => {
+        box.addEventListener("change", () => {
+            if (box.checked) {
+                checkboxes.forEach(cb => {
+                    if (cb !== box) cb.checked = false;
+                });
+                commentInput.disabled = true;
+                commentInput.value = "";
+                commentInput.placeholder = "Deselect the checkbox to enter comment";
+            } else {
+                commentInput.disabled = false;
+                commentInput.placeholder = "Enter comment here";
+            }
+        });
+    });
+}
+
 function updateDisplay() {
     const currentKey = RUBRIC_KEYS[currentIndex];
     const currentRubric = RUBRIC[currentKey];
     const marksInput = document.getElementById("marks-input");
+
+    marksInput.value = "0";
 
     if (!currentRubric) return;
 
@@ -80,13 +89,19 @@ function updateDisplay() {
 
     currentRubric.comments.forEach((comment, index) => {
         const label = document.createElement('label');
-        label.className = 'flex items-center gap-2 p-2 m-2 border-2 rounded-lg cursor-pointer';
+        label.className = 'flex items-center gap-2 p-2 border-2 rounded-lg cursor-pointer';
         label.innerHTML = `
-            <input type="radio" name="grade_${currentKey}" value="${index}">
+            <input type="checkbox" name="grade_${currentKey}" value="${index}">
             ${comment}
         `;
         commentsContainer.appendChild(label);
     });
+
+    const commentInput = document.getElementById("comment-input");
+    commentInput.placeholder = "Enter comment here";
+    commentInput.disabled = false;
+
+    handleCheckboxCommentLock(currentKey);
 
     document.getElementById('prev-btn').disabled = currentIndex === 0;
 
@@ -99,10 +114,27 @@ function updateDisplay() {
     }
 }
 
+function saveCurrentRubric(currentIndex) {
+    const currentKey = RUBRIC_KEYS[currentIndex];
+    const selectedInput = document.querySelector(
+        `input[name="grade_${currentKey}"]:checked`
+    );
+
+    const marksInput = document.getElementById("marks-input");
+    const commentInput = document.getElementById("comment-input");
+
+    rubricGrades[currentKey] = {
+        marks_awarded: marksInput? Math.min(parseInt(marksInput.value) || 0, RUBRIC[currentKey].marks): 0,
+        comment: commentInput.value? 
+                commentInput.value: selectedInput? RUBRIC[currentKey].comments[selectedInput.value]: ""
+    };
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const marksInput = document.getElementById("marks-input");
     const marksError = document.getElementById("marks-error");
     const obtainedMarksDisplay = document.getElementById("obtained-marks");
+    const commentInput = document.getElementById("comment-input");
 
     marksInput.addEventListener("input", () => {
         const currentKey = RUBRIC_KEYS[currentIndex];
@@ -117,8 +149,18 @@ document.addEventListener("DOMContentLoaded", () => {
         obtainedMarksDisplay.textContent = marksInput.value || '0';
     });
 
+    commentInput.addEventListener("focus", () => {
+        const currentKey = RUBRIC_KEYS[currentIndex];
+        if (!currentKey) return;
+
+        const checkboxes = document.querySelectorAll(`input[name="grade_${currentKey}"]`);
+        checkboxes.forEach(cb => cb.checked = false);
+        commentInput.disabled = false;
+    });
+
     document.getElementById('prev-btn').addEventListener('click', () => {
         if (currentIndex > 0) {
+            saveCurrentRubric(currentIndex);
             currentIndex--;
             updateDisplay();
         }
@@ -127,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('next-btn').addEventListener('click', () => {
         if (currentIndex < RUBRIC_KEYS.length - 1) {
+            saveCurrentRubric(currentIndex);
             currentIndex++;
             updateDisplay();
         }
