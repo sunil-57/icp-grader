@@ -24,7 +24,6 @@ def safe_path(subpath):
         raise InvalidPath("Invalid path access")
     return full_path
 
-
 def list_directory(subpath):
     current_dir = safe_path(subpath)
 
@@ -41,9 +40,13 @@ def list_directory(subpath):
             pdfs.append(item)
 
     return {
-        "folders": sorted(folders),
+        "folders": sorted(
+            folders,
+            key=lambda x: int("".join(filter(str.isdigit, x))) if any(c.isdigit() for c in x) else float("inf")
+        ),
         "files": sorted(pdfs),
     }
+
 
 def resolve_pdf(subpath, filename):
     full_path = safe_path(os.path.join(subpath, filename))
