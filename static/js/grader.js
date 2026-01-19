@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById('done-btn').addEventListener('click', async () => {
+        saveCurrentRubric(currentIndex);
         await submitGrades();
         window.location.href = '/';
     });
