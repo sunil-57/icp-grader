@@ -89,9 +89,9 @@ function updateDisplay() {
 
     currentRubric.comments.forEach((comment, index) => {
         const label = document.createElement('label');
-        label.className = 'flex items-center gap-2 p-2 border-2 rounded-lg cursor-pointer';
+        label.className = 'flex items-start gap-2 p-2 border-2 rounded-lg cursor-pointer';
         label.innerHTML = `
-            <input type="checkbox" name="grade_${currentKey}" value="${index}">
+            <input class ="m-2" type="checkbox" name="grade_${currentKey}" value="${index}">
             ${comment}
         `;
         commentsContainer.appendChild(label);
