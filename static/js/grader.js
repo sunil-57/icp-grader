@@ -2,15 +2,13 @@ let RUBRIC = {};
 let MARKS_BY_KEY = {};
 let RUBRIC_KEYS = [];
 let currentIndex = 0;
+let totalObtained = 0;
+const rubricGrades = {};
 
 function updateTotalObtained() {
     const total = Object.values(MARKS_BY_KEY).reduce((sum, v) => sum + v, 0);
     document.getElementById("obtained-marks").textContent = total;
 }
-
-let totalObtained = 0;
-const rubricGrades = {};
-
 
 async function loadRubric() {
     const response = await fetch("/api/rubric");
@@ -27,17 +25,17 @@ async function submitGrades() {
     const iframe = document.getElementById("pdf-viewer");
     const FILE_PATH = iframe ? iframe.getAttribute("src").split("/view/")[1] : "";
 
-    RUBRIC_KEYS.forEach((key) => {
-        const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
-        const commentInput = document.getElementById("comment-input");
+    // RUBRIC_KEYS.forEach((key) => {
+    //     const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
+    //     const commentInput = document.getElementById("comment-input");
 
-        rubricGrades[key] = {
-            marks_awarded: MARKS_BY_KEY[key] || 0,
-            comment: commentInput
-                ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "")
-                : ""
-        };
-    });
+    //     rubricGrades[key] = {
+    //         marks_awarded: MARKS_BY_KEY[key] || 0,
+    //         comment: commentInput
+    //             ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "")
+    //             : ""
+    //     };
+    // });
 
     const payload = {
         file_name: decodeURIComponent(FILE_PATH),
@@ -180,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const checkboxes = document.querySelectorAll(`input[name="grade_${currentKey}"]`);
         checkboxes.forEach(cb => cb.checked = false);
         commentInput.disabled = false;
+        });
     });
 
     document.getElementById('prev-btn').addEventListener('click', () => {
