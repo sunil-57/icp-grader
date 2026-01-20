@@ -1,8 +1,16 @@
 let RUBRIC = {};
+let MARKS_BY_KEY = {};
 let RUBRIC_KEYS = [];
 let currentIndex = 0;
+
+function updateTotalObtained() {
+    const total = Object.values(MARKS_BY_KEY).reduce((sum, v) => sum + v, 0);
+    document.getElementById("obtained-marks").textContent = total;
+}
+
 let totalObtained = 0;
 const rubricGrades = {};
+
 
 async function loadRubric() {
     const response = await fetch("/api/rubric");
@@ -11,15 +19,25 @@ async function loadRubric() {
     RUBRIC = data.rubric;
     RUBRIC_KEYS = data.keys;
 
-    console.log(RUBRIC, RUBRIC_KEYS);
     updateDisplay();
+    updateTotalObtained();
 }
 
 async function submitGrades() {
     const iframe = document.getElementById("pdf-viewer");
     const FILE_PATH = iframe ? iframe.getAttribute("src").split("/view/")[1] : "";
 
-    console.log("Final rubric grades to submit:", rubricGrades);
+    RUBRIC_KEYS.forEach((key) => {
+        const selectedInput = document.querySelector(`input[name="grade_${key}"]:checked`);
+        const commentInput = document.getElementById("comment-input");
+
+        rubricGrades[key] = {
+            marks_awarded: MARKS_BY_KEY[key] || 0,
+            comment: commentInput
+                ? commentInput.value || (selectedInput ? RUBRIC[key].comments[selectedInput.value] : "")
+                : ""
+        };
+    });
 
     const payload = {
         file_name: decodeURIComponent(FILE_PATH),
@@ -33,15 +51,13 @@ async function submitGrades() {
             body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            alert("Grades saved successfully!");
-        } else {
+        if (!response.ok) {
             const text = await response.text();
-            console.error("Error response:", text);
-            alert("Error saving grades. See console.");
+            throw new Error(text);
         }
+
+        alert("Grades saved successfully!");
     } catch (err) {
-        console.error("Submit failed:", err);
         alert(err.message || "Failed to save grades");
     }
 }
@@ -77,19 +93,19 @@ function updateDisplay() {
 
     if (!currentRubric) return;
 
-    if (marksInput && currentKey && RUBRIC[currentKey]) {
-        marksInput.max = RUBRIC[currentKey].marks;
-    }
+    marksInput.max = currentRubric.marks;
+    marksInput.value = MARKS_BY_KEY[currentKey] ?? "";
 
-    document.getElementById('criterion-title').textContent = currentKey;
-    document.getElementById('total-marks').textContent = currentRubric.marks;
+    document.getElementById("criterion-title").textContent = currentKey;
+    document.getElementById("total-marks").textContent = currentRubric.marks;
 
-    const commentsContainer = document.getElementById('comments-container');
-    commentsContainer.innerHTML = '';
+    const commentsContainer = document.getElementById("comments-container");
+    commentsContainer.innerHTML = "";
 
     currentRubric.comments.forEach((comment, index) => {
         const label = document.createElement('label');
         label.className = 'flex items-start gap-2 p-2 border-2 rounded-lg cursor-pointer';
+
         label.innerHTML = `
             <input class ="m-2" type="checkbox" name="grade_${currentKey}" value="${index}">
             ${comment}
@@ -97,6 +113,7 @@ function updateDisplay() {
         commentsContainer.appendChild(label);
     });
 
+    document.getElementById("prev-btn").disabled = currentIndex === 0;
     const commentInput = document.getElementById("comment-input");
     commentInput.placeholder = "Enter comment here";
     commentInput.disabled = false;
@@ -106,11 +123,11 @@ function updateDisplay() {
     document.getElementById('prev-btn').disabled = currentIndex === 0;
 
     if (currentIndex === RUBRIC_KEYS.length - 1) {
-        document.getElementById('next-btn').classList.add('hidden');
-        document.getElementById('done-btn').classList.remove('hidden');
+        document.getElementById("next-btn").classList.add("hidden");
+        document.getElementById("done-btn").classList.remove("hidden");
     } else {
-        document.getElementById('next-btn').classList.remove('hidden');
-        document.getElementById('done-btn').classList.add('hidden');
+        document.getElementById("next-btn").classList.remove("hidden");
+        document.getElementById("done-btn").classList.add("hidden");
     }
 }
 
@@ -138,17 +155,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     marksInput.addEventListener("input", () => {
         const currentKey = RUBRIC_KEYS[currentIndex];
-        const max = currentKey && RUBRIC[currentKey] ? RUBRIC[currentKey].marks : null;
+        if (!currentKey) return;
 
-        if (max !== null && parseInt(marksInput.value) > max) {
+        const max = RUBRIC[currentKey].marks;
+        const value = Math.min(parseInt(marksInput.value) || 0, max);
+
+        marksInput.value = value;
+        MARKS_BY_KEY[currentKey] = value;
+
+        if (value > max) {
             marksError.classList.remove("hidden");
         } else {
             marksError.classList.add("hidden");
         }
 
-        obtainedMarksDisplay.textContent = marksInput.value || '0';
+        updateTotalObtained();
     });
 
+    document.getElementById("prev-btn").addEventListener("click", () => {
     commentInput.addEventListener("focus", () => {
         const currentKey = RUBRIC_KEYS[currentIndex];
         if (!currentKey) return;
@@ -164,22 +188,22 @@ document.addEventListener("DOMContentLoaded", () => {
             currentIndex--;
             updateDisplay();
         }
-        obtainedMarksDisplay.textContent = marksInput.value || '0';
+        updateTotalObtained();
     });
 
-    document.getElementById('next-btn').addEventListener('click', () => {
+    document.getElementById("next-btn").addEventListener("click", () => {
         if (currentIndex < RUBRIC_KEYS.length - 1) {
             saveCurrentRubric(currentIndex);
             currentIndex++;
             updateDisplay();
         }
-        obtainedMarksDisplay.textContent = marksInput.value || '0';
+        updateTotalObtained();
     });
 
     document.getElementById('done-btn').addEventListener('click', async () => {
         saveCurrentRubric(currentIndex);
         await submitGrades();
-        window.location.href = '/';
+        window.location.href = "/";
     });
 
     loadRubric();
