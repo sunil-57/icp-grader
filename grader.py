@@ -24,7 +24,6 @@ def safe_path(subpath):
         raise InvalidPath("Invalid path access")
     return full_path
 
-
 def list_directory(subpath):
     current_dir = safe_path(subpath)
 
@@ -41,9 +40,13 @@ def list_directory(subpath):
             pdfs.append(item)
 
     return {
-        "folders": sorted(folders),
+        "folders": sorted(
+            folders,
+            key=lambda x: int("".join(filter(str.isdigit, x))) if any(c.isdigit() for c in x) else float("inf")
+        ),
         "files": sorted(pdfs),
     }
+
 
 def resolve_pdf(subpath, filename):
     full_path = safe_path(os.path.join(subpath, filename))
@@ -115,10 +118,8 @@ def save_student_grade(file_path: str, rubric_grades: dict, output_file="grades/
     with open(output_file, "w") as f:
         json.dump(all_students, f, indent=4)
     
-  
-    write_grades_to_excel(
-       student_data
-    )
+
+    write_grades_to_excel(student_data)
 
     return student_data
 
@@ -160,7 +161,7 @@ def write_grades_to_excel(student_data):
         
     sheet = wb[sheet_name]
     sheet["B2"].value = student_data["student_name"]
-    sheet["B3"].value = student_data["student_id"]
+    sheet["B3"].value = int(student_data["student_id"])
     for key, grade in student_grades.items():
         if key not in rubric:
             #TODO need to handle this

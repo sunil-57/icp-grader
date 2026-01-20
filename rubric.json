@@ -3,23 +3,23 @@
     "marks": 10,
     "excelCell": "C5",
     "comments": [
-      "Proposal is clear, structured, and well-defined",
-      "Proposal is clear but lacks some detail",
-      "Proposal is partially defined",
-      "Proposal lacks clarity or direction",
-      "Proposal is missing or irrelevant"
+      "Proposal is comprehensive, clearly scoped, and well justified with a strong problem definition",
+      "Proposal is clear and relevant but has minor gaps in scope or justification",
+      "Proposal outlines the main idea but lacks sufficient technical or contextual detail",
+      "Proposal is unclear with weak problem definition and limited relevance",
+      "Proposal is missing, incomplete, or does not meet the required criteria"
     ]
   },
 
-  "Introduction": {
+   "Introduction": {
     "marks": 10,
     "excelCell": "C6",
     "comments": [
-      "Introduction clearly sets context and objectives",
-      "Introduction is clear but could be improved",
-      "Introduction is basic",
-      "Introduction lacks clarity",
-      "Introduction is missing or irrelevant"
+      "Introduction clearly presents the project context, current scenario, problem statement, proposed solution, and well defined aims and objectives",
+      "Introduction explains the project context and problem with a clear solution and objectives, but lacks minor detail or clarity",
+      "Introduction outlines the current scenario and objectives but provides limited explanation of the problem or solution",
+      "Introduction lacks a clear current scenario, problem definition, or alignment between solution and objectives",
+      "Introduction is missing or does not explain the project context, problem, or objectives"
     ]
   },
 
@@ -27,11 +27,11 @@
     "marks": 10,
     "excelCell": "C7",
     "comments": [
-      "Background is well-researched and relevant",
-      "Background is adequate",
-      "Background is basic",
-      "Background lacks depth",
-      "Background is missing or irrelevant"
+      "Background is detailed and well researched with a clear system overview, complete design diagrams, and thorough requirement analysis",
+      "Background provides a clear system overview with relevant diagrams and adequate requirement analysis",
+      "Background explains the system at a basic level but diagrams or requirement analysis are incomplete",
+      "Background lacks a clear system overview, with missing or unclear diagrams and weak requirement analysis",
+      "Background is missing, incorrect, or does not explain the system, diagrams, or requirements"
     ]
   },
 
@@ -39,11 +39,11 @@
     "marks": 20,
     "excelCell": "C8",
     "comments": [
-      "Development is thorough and well-structured",
-      "Development is good but could be refined",
-      "Development is satisfactory",
-      "Development lacks clarity or detail",
-      "Development is weak or incomplete"
+      "Development is clearly structured with well defined implementation stages, detailed task breakdown, proper timeline, at least five meeting logs, and strong supporting evidence",
+      "Development describes implementation stages and tasks with a reasonable timeline, includes meeting logs, and provides adequate supporting records",
+      "Development explains the process and tasks but lacks a complete timeline, sufficient meeting logs, or clear stage wise evidence",
+      "Development is poorly structured with unclear stages, weak task description, limited meeting logs, and minimal evidence",
+      "Development is incomplete or missing, with no clear stages, timeline, meeting logs, or supporting evidence"
     ]
   },
 
@@ -51,11 +51,11 @@
     "marks": 10,
     "excelCell": "C9",
     "comments": [
-      "Results and findings are clear and well-analysed",
-      "Results are clear with minor gaps",
-      "Results are presented adequately",
-      "Results lack analysis or clarity",
-      "Results are missing or incorrect"
+      "Results are clearly presented with strong analysis, key insights, and at least ten well documented test cases covering hardware, software, and logical validation",
+      "Results summarize outcomes and insights with sufficient test cases across hardware, software, and logic, but analysis could be deeper",
+      "Results are presented with limited analysis and fewer or partially documented test cases across hardware, software, or logical checks",
+      "Results lack clear outcomes, insights, and adequate test coverage across hardware, software, and logical aspects",
+      "Results are missing, incorrect, or do not include valid test cases or meaningful findings"
     ]
   },
 
@@ -63,11 +63,11 @@
     "marks": 10,
     "excelCell": "C10",
     "comments": [
-      "Further work is realistic and well-justified",
-      "Further work is appropriate",
-      "Further work is basic",
-      "Further work lacks justification",
-      "Further work is missing or irrelevant"
+      "Future work suggestions are insightful, feasible, and clearly extend the current project with meaningful improvements",
+      "Future work is relevant and realistic, showing clear potential for project enhancement",
+      "Future work suggestions are basic and provide limited scope for improvement",
+      "Future work lacks clarity, feasibility, or strong connection to the project outcomes",
+      "Future work is missing, unrealistic, or not relevant to the project"
     ]
   },
 
@@ -75,11 +75,11 @@
     "marks": 5,
     "excelCell": "C11",
     "comments": [
-      "Conclusion effectively summarizes key points",
-      "Conclusion is clear",
-      "Conclusion is basic",
-      "Conclusion lacks coherence",
-      "Conclusion is missing"
+      "Conclusion clearly summarizes the project achievements and impact, and discusses key research that will aid future readers",
+      "Conclusion summarizes the project outcomes and research, with reasonable clarity and relevance",
+      "Conclusion provides a basic summary of achievements but limited discussion of research contribution",
+      "Conclusion lacks clear summary of impact and does not adequately discuss the research conducted",
+      "Conclusion is missing, incomplete, or does not reflect the project or research work"
     ]
   },
 
@@ -87,11 +87,11 @@
     "marks": 10,
     "excelCell": "C12",
     "comments": [
-      "Formatting and references are excellent",
-      "Formatting and references are good",
-      "Formatting and references are satisfactory",
-      "Formatting and references need improvement",
-      "Poor formatting or incorrect references"
+      "Formatting is professional and consistent with accurate and properly cited references",
+      "Formatting and references are mostly correct with minor inconsistencies",
+      "Formatting and references are acceptable but need improvement in consistency",
+      "Formatting or references contain multiple errors or inconsistencies",
+      "Poor formatting with incorrect, missing, or improperly cited references"
     ]
   },
 
@@ -99,11 +99,11 @@
     "marks": 10,
     "excelCell": "C13",
     "comments": [
-      "Presentation is clear, confident, and professional",
-      "Presentation is clear",
-      "Presentation is satisfactory",
-      "Presentation lacks clarity",
-      "Presentation is weak"
+      "Presentation is professional, confident, well organized, and clearly communicated",
+      "Presentation is clear and structured with acceptable delivery",
+      "Presentation is acceptable but has issues with clarity or organization",
+      "Presentation lacks clarity, confidence, or logical flow",
+      "Presentation is weak, disorganized, or ineffective"
     ]
   },
 
@@ -111,11 +111,11 @@
     "marks": 5,
     "excelCell": "C14",
     "comments": [
-      "Excellent understanding demonstrated in viva",
-      "Good understanding demonstrated",
-      "Satisfactory understanding",
-      "Limited understanding shown",
-      "Poor or no understanding demonstrated"
+      "Demonstrates excellent conceptual and practical understanding of the project",
+      "Demonstrates good understanding of project concepts and implementation",
+      "Demonstrates basic understanding with limited depth",
+      "Demonstrates limited understanding and difficulty explaining concepts",
+      "Unable to explain project objectives, implementation, or concepts"
     ]
   }
 }
