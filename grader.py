@@ -65,9 +65,10 @@ def parse_student_info(file_name: str):
     name_part = os.path.splitext(base_name)[0]
     parts = name_part.split('_')
     if len(parts) < 2:
-        raise ValueError("Filename must be in format LM12345_JohnDoe_Project.pdf")
+        raise ValueError("Filename must be in format LM12345_John Doe_Project.pdf")
     student_id = parts[0]
-    student_name = ' '.join(parts[1:-1])
+    student_name = ' '.join(parts[1:])
+    print(f"Parsed student ID: {student_id}, student name: {student_name} from filename: {file_name}")
     return student_id, student_name
 
 def save_student_grade(file_path: str, rubric_grades: dict, output_file="grades/all_grades.json"):
@@ -123,7 +124,7 @@ def save_student_grade(file_path: str, rubric_grades: dict, output_file="grades/
 
     return student_data
 
-def create_student_excel(pdf_path):
+def create_student_excel(pdf_path, student_name, student_id):
     """
     Copies the Excel template, renames it, and saves it in the same folder as the PDF
     """
@@ -132,7 +133,7 @@ def create_student_excel(pdf_path):
     pdf_dir = os.path.dirname(full_pdf_path)
     os.makedirs(pdf_dir, exist_ok=True)
 
-    student_id, student_name = parse_student_info(pdf_path)
+    # student_id, student_name = parse_student_info(pdf_path)
     new_filename = f"{student_id} {student_name}.xlsx"
     new_file_path = os.path.join(pdf_dir, new_filename)
 
@@ -144,7 +145,7 @@ def write_grades_to_excel(student_data):
     """
     Writes awarded marks into their respective Excel cells
     """
-    excel_path = create_student_excel(student_data["file_path"])
+    excel_path = create_student_excel(student_data["file_path"], student_data["student_name"],student_data["student_id"])
     student_grades = student_data["rubric"]
     rubric = process_rubric()["rubric"]
     sheet_name = "Grading Sheet"
@@ -160,8 +161,8 @@ def write_grades_to_excel(student_data):
         )
         
     sheet = wb[sheet_name]
-    sheet["B2"].value = student_data["student_name"]
-    sheet["B3"].value = int(student_data["student_id"])
+    sheet["B3"].value = student_data["student_name"]
+    sheet["B2"].value = int(student_data["student_id"])
     for key, grade in student_grades.items():
         if key not in rubric:
             #TODO need to handle this
@@ -170,6 +171,23 @@ def write_grades_to_excel(student_data):
         sheet[rubric[key]["excelCell"]].value = grade["marks_awarded"]
     
     result_sheet = wb.worksheets[1]
-    result_sheet["A20"].value = student_data["overall_comment"]
+    result_sheet["A25"].value = student_data["overall_comment"]
     wb.save(excel_path)
     wb.close()
+    
+def is_graded(file_path: str, grades_file="grades/all_grades.json") -> bool:
+    if not os.path.exists(grades_file):
+        return False
+
+    try:
+        with open(grades_file, "r") as f:
+            all_students = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return False
+
+    student_id, _ = parse_student_info(file_path)
+
+    return any(
+        student.get("student_id") == student_id
+        for student in all_students
+    )
