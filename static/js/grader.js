@@ -53,8 +53,12 @@ async function submitGrades() {
             const text = await response.text();
             throw new Error(text);
         }
-
-        alert("Grades saved successfully!");
+        const data = await response.json();
+         alert(
+        `Grades saved successfully\n\n` +
+        `Student: ${data.student_data.student_name}\n` +
+        `Total Marks: ${data.student_data.total_marks}`
+    );
     } catch (err) {
         alert(err.message || "Failed to save grades");
     }

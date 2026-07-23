@@ -3,6 +3,8 @@ node_modules/
 venv/
 env/
 documents/
+cloud-documents/
+apt-documents/
 grades/
 __pycache__/
 *.pyc
